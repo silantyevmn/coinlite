@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CoinLite</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="title_loading">Идет загрузка...</string>
+    <string name="market_cap_rank_text">Market Cap Rank</string>
+    <string name="mc_hange_in_24h_text">MC сhange in 24h, %</string>
+    <string name="all_time_high_ath_text">All Time High (ATH)</string>
+    <string name="ath_change_text">ATH change, %</string>
+    <string name="circulating_supply_text">Circulating Supply</string>
+    <string name="total_supply_text">Total Supply</string>
+</resources>
