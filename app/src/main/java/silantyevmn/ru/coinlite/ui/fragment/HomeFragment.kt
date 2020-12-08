@@ -53,7 +53,7 @@ class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Liste
 
     override fun onPause() {
         super.onPause()
-        presenter.compositeDisposable.clear()
+        presenter.onStop()
     }
 
     override fun init() {
@@ -67,7 +67,7 @@ class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Liste
         }
 
         btn_action_cancel.setOnClickListener {
-            presenter.cancel()
+            presenter.onStop()
         }
     }
 

@@ -37,14 +37,21 @@ class ChartPresenter(
                 .subscribeOn(Schedulers.io())
                 .map {chart -> chart.prices }
                 .flatMap { chartPrices -> Observable.fromIterable(chartPrices) }
-                .filter{chartItem -> !chartItem.isEmpty()}
+//                .take(600)
+                .filter{
+                    !it.isEmpty()
+                }
+//                .doOnNext { chartItem -> viewState.addEntryToChart(chartItem[0], chartItem[1]) }
                 .observeOn(mainThreadScheduler)
+                .doOnNext { chartItem -> viewState.addEntryToChart(chartItem[0], chartItem[1]) }
                 .doOnSubscribe { viewState.showLoading() }
                 .doOnError { viewState.hideLoading() }
                 .doOnComplete { viewState.hideLoading() }
                 .subscribe({ chartItem ->
                     viewState.hideLoading()
-                    viewState.addEntryToChart(chartItem[0], chartItem[1])
+//                    viewState.addEntryToChart(chartItem[0], chartItem[1])
+                    viewState.updateChart(listOf())
+//                    viewState.addEntryToChart(chartItem[0], chartItem[1])
                 }, { error ->
                     viewState.hideLoading()
                     viewState.showToast(error.message!!)
@@ -53,18 +60,14 @@ class ChartPresenter(
         )
     }
 
-    fun cancel() {
+    fun onStop() {
         viewState.hideLoading()
         compositeDisposable.clear()
     }
 
-    fun onBackspace() {
-        cancel()
+    fun onBackPressed() {
+        onStop()
         router.exit()
-    }
-
-    fun onDestroyView() {
-        compositeDisposable.clear()
     }
 }
 

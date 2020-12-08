@@ -91,11 +91,11 @@ class ChartFragment : MvpAppCompatFragment(), ChartView, BackButtonListener {
         chart.initChart(chartCurrency)
 
         btn_action_cancel.setOnClickListener {
-            presenter.cancel()
+            presenter.onStop()
         }
 
         toolbar.setNavigationOnClickListener{
-            presenter.onBackspace()
+            presenter.onBackPressed()
         }
     }
 
@@ -128,9 +128,10 @@ class ChartFragment : MvpAppCompatFragment(), ChartView, BackButtonListener {
     }
 
     override fun updateChart(chartItem: List<List<Float>>) {
-        chartItem.forEach {
-            chart.addEntry(it[0],it[1])
-        }
+        chart.invalidate()
+//        chartItem.forEach {
+//            chart.addEntry(it[0],it[1])
+//        }
     }
 
     override fun showLoading() {
@@ -142,12 +143,12 @@ class ChartFragment : MvpAppCompatFragment(), ChartView, BackButtonListener {
     }
 
     override fun onDestroyView() {
-        presenter.onDestroyView()
+        presenter.onStop()
         super.onDestroyView()
     }
 
     override fun onBackPressed(): Boolean {
-        presenter.onBackspace()
+        presenter.onBackPressed()
         return true
     }
 

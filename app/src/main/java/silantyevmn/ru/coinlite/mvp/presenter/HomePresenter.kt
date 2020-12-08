@@ -52,7 +52,7 @@ class HomePresenter(
         router.navigateTo(Screens.DetailsScreen(coin))
     }
 
-    fun cancel() {
+    fun onStop() {
         viewState.hideLoading()
         compositeDisposable.clear()
     }
