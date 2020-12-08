@@ -86,8 +86,12 @@ class LatestChart {
         val rightAxis = chart.axisRight
         rightAxis.isEnabled = true
 
+
     }
 
+    fun invalidate(){
+        chart.invalidate()
+    }
     //добавление данных на график
     fun addEntry(value: Float, date: Float) {
         val data = chart.data
@@ -111,6 +115,7 @@ class LatestChart {
             chart.moveViewToX(date)
 
             chart.highlightValue(date, 0)
+            chart.animateX(3000)
 
         }
     }
