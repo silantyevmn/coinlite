@@ -8,4 +8,6 @@
     <string name="ath_change_text">ATH change, %</string>
     <string name="circulating_supply_text">Circulating Supply</string>
     <string name="total_supply_text">Total Supply</string>
+    <string name="market_cap">Market Cap : </string>
+    <string name="price">Price : </string>
 </resources>
