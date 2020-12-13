@@ -32,6 +32,7 @@ class LatestChart {
     fun initChart(chart: LineChart) {
         this.chart = chart
 
+        chart.animateX(1000)
         // enable description text
         chart.description.isEnabled = false
 
@@ -56,6 +57,18 @@ class LatestChart {
 
         // add empty data
         chart.data = data
+
+//        //реализация с -0-0--0--0-
+//        val lds=LineDataSet(null,"data");
+//        lds.setCircleColor(Color.BLACK);
+//        lds.setCircleRadius(6f);
+//        lds.setCircleHoleRadius(3f);
+////        lds.setCircleColorHole(Color.WHITE);
+//        lds.setColor(Color.BLACK);
+//        lds.setLineWidth(4f);
+//        val ld = LineData(lds);
+//        ld.setDrawValues(false);
+//        chart.setData(ld);
 
         // get the legend (only possible after setting data)
         chart.legend.isEnabled = true
@@ -115,7 +128,6 @@ class LatestChart {
             chart.moveViewToX(date)
 
             chart.highlightValue(date, 0)
-            chart.animateX(3000)
 
         }
     }
@@ -123,7 +135,7 @@ class LatestChart {
     //создание и настройка набора данных
     private fun createSet(): LineDataSet {
         val set = LineDataSet(null, "Price, USD")
-
+        set.setDrawValues(false) //не показываем данные на грифике
         set.mode = LineDataSet.Mode.CUBIC_BEZIER
         set.cubicIntensity = 0.2f
         set.setDrawFilled(true)
