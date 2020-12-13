@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.Router
@@ -25,6 +26,7 @@ import silantyevmn.ru.coinlite.App
 import silantyevmn.ru.coinlite.R
 import silantyevmn.ru.coinlite.mvp.model.entity.GeckoCoin
 import silantyevmn.ru.coinlite.mvp.model.entity.GeckoCoinItem
+import silantyevmn.ru.coinlite.mvp.model.image.ImageLoader
 import silantyevmn.ru.coinlite.mvp.model.repo.GeckoRepo
 import silantyevmn.ru.coinlite.mvp.presenter.ChartPresenter
 import silantyevmn.ru.coinlite.mvp.view.ChartView
@@ -50,6 +52,9 @@ class ChartFragment : MvpAppCompatFragment(), ChartView, BackButtonListener {
 
     @Inject
     lateinit var router: Router
+
+    @Inject
+    lateinit var imageLoader: ImageLoader<ImageView>
 
     lateinit var chart: LatestChart
 
@@ -114,7 +119,7 @@ class ChartFragment : MvpAppCompatFragment(), ChartView, BackButtonListener {
     override fun refresh(coinItem: Any) {
         coinItem as GeckoCoinItem
         toolbar.title=coinItem.name
-        Glide.with(this).load(coinItem.image).into(ivCurrencyDetailIcon)
+        imageLoader.loadInto(coinItem.image,ivCurrencyDetailIcon);
         tvDetailMarketCapRank.text = coinItem.marketCapRank
         tvMarketCapChange.text = coinItem.marketCapChangePercentage24h
         tvATH.text = coinItem.ath

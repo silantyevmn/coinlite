@@ -3,15 +3,15 @@ package silantyevmn.ru.coinlite.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_home.view.*
 import silantyevmn.ru.coinlite.R
 import silantyevmn.ru.coinlite.mvp.model.entity.GeckoCoin
+import silantyevmn.ru.coinlite.mvp.model.image.ImageLoader
 
-class HomeRecyclerAdapter(
-    val listener: Listener
-) : RecyclerView.Adapter<HomeRecyclerAdapter.ItemViewHolder>() {
+class HomeRecyclerAdapter(val listener: Listener,val imageLoader: ImageLoader<ImageView>) : RecyclerView.Adapter<HomeRecyclerAdapter.ItemViewHolder>() {
 
     interface Listener {
         fun onItemClickById(coin: GeckoCoin)
@@ -31,7 +31,7 @@ class HomeRecyclerAdapter(
             parent,
             false
         )
-        return ItemViewHolder(itemView, listener)
+        return ItemViewHolder(itemView, listener,imageLoader)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -42,18 +42,17 @@ class HomeRecyclerAdapter(
 
     }
 
-    class ItemViewHolder(itemView: View, val listener: HomeRecyclerAdapter.Listener) :
+    class ItemViewHolder(itemView: View, val listener: HomeRecyclerAdapter.Listener,val imageLoader: ImageLoader<ImageView>) :
         RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: Any) {
             with(itemView) {
                 item as GeckoCoin
-                Glide.with(itemView.context).load(item.image).into(itemView.ivCurrencyIcon)
+                imageLoader.loadInto(item.image,itemView.ivCurrencyIcon);
                 itemView.tvCurrencySym.text = item.symbol
                 itemView.tvCurrencyName.text = item.name
                 itemView.tvCurrencyMarketCap.text = item.marketCap
                 itemView.tvCurrencyPrice.text = item.currentPrice.toString()
-                itemView.tvCurrencySym.text = item.name
 
                 setOnClickListener {
                     listener.onItemClickById(item)

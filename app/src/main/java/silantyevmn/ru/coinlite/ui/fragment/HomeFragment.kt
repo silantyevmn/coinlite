@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.Router
@@ -16,6 +17,7 @@ import silantyevmn.ru.coinlite.App
 import silantyevmn.ru.coinlite.ui.adapter.HomeRecyclerAdapter
 import silantyevmn.ru.coinlite.R
 import silantyevmn.ru.coinlite.mvp.model.entity.GeckoCoin
+import silantyevmn.ru.coinlite.mvp.model.image.ImageLoader
 import silantyevmn.ru.coinlite.mvp.model.repo.GeckoRepo
 import silantyevmn.ru.coinlite.mvp.presenter.HomePresenter
 import silantyevmn.ru.coinlite.mvp.view.HomeView
@@ -25,6 +27,9 @@ class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Liste
     lateinit var adapter:HomeRecyclerAdapter
     @Inject
     lateinit var repo: GeckoRepo
+
+    @Inject
+    lateinit var imageLoader: ImageLoader<ImageView>;
 
     @Inject
     lateinit var router: Router
@@ -59,7 +64,7 @@ class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Liste
     override fun init() {
         toolbar.title=getString(R.string.app_name)
         rcv_container_home.layoutManager = LinearLayoutManager(context)
-        adapter= HomeRecyclerAdapter(this)
+        adapter= HomeRecyclerAdapter(this,imageLoader)
         rcv_container_home.adapter=adapter;
 
         btn_load.setOnClickListener {
