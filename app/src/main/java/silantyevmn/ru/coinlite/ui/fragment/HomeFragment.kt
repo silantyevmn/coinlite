@@ -74,18 +74,24 @@ class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Liste
         btn_action_cancel.setOnClickListener {
             presenter.onStop()
         }
+
+        swipe_home.setOnRefreshListener {
+            presenter.loadData()
+        }
     }
 
     override fun updateList(list: List<Any>) {
-        adapter.list=list;
+        adapter.list=list
     }
 
     override fun showLoading() {
-        loadingContainer.visibility = View.VISIBLE
+//        loadingContainer.visibility = View.VISIBLE
+        swipe_home.isRefreshing = true
     }
 
     override fun hideLoading() {
         loadingContainer.visibility = View.GONE
+        swipe_home.isRefreshing = false
     }
 
     override fun showError(msg: String) {
