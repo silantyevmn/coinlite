@@ -33,7 +33,7 @@ class ChartPresenter(
         )
 
         compositeDisposable.add(
-            repo.getCoinMarket(coin.id)
+            repo.getChartCoin(coin.id)
                 .subscribeOn(Schedulers.io())
                 .map {chart -> chart.prices }
                 .flatMap { chartPrices -> Observable.fromIterable(chartPrices) }

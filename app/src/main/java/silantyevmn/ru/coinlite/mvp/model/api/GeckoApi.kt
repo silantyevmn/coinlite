@@ -20,7 +20,7 @@ interface GeckoApi {
 
     //запрос данных для графика
     @GET("coins/{id}/market_chart")
-    fun getCoinMarketChart(
+    fun getChartById(
         @Path("id") id: String,
         @Query("vs_currency") vsCurrency: String = "usd",
         @Query("days") days: String = "90",
