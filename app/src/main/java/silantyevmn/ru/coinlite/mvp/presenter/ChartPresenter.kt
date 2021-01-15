@@ -55,7 +55,7 @@ class ChartPresenter(
                 }, { error ->
                     viewState.hideLoading()
                     viewState.showToast(error.message!!)
-                    error.printStackTrace()
+//                    error.printStackTrace()
                 })
         )
     }
