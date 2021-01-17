@@ -49,12 +49,12 @@ class PaperCache : Cache {
         }
     }
 
-    override fun putChartById(id: String, chart: GeckoCoinChartRest): Boolean {
+    override fun putChart(chart: GeckoCoinChartRest): Boolean {
         try {
-            if (Paper.book(KEY_CHART).contains(id)) {
-                Paper.book(KEY_CHART).delete(id)
+            if (Paper.book(KEY_CHART).contains(chart.id)) {
+                Paper.book(KEY_CHART).delete(chart.id)
             }
-            Paper.book(KEY_CHART).write(id, chart)
+            Paper.book(KEY_CHART).write(chart.id, chart)
             return true
         } catch (e: Exception) {
             return false

@@ -23,7 +23,7 @@ interface GeckoApi {
     fun getChartById(
         @Path("id") id: String,
         @Query("vs_currency") vsCurrency: String = "usd",
-        @Query("days") days: String = "90",
+        @Query("days") days: String = "30",
         @Query("interval") interval: String = "daily"
 
     ): Observable<GeckoCoinChartRest>
