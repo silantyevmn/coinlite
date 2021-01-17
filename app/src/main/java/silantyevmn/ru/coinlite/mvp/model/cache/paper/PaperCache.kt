@@ -3,6 +3,8 @@ package silantyevmn.ru.coinlite.mvp.model.cache.paper
 import io.paperdb.Paper
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
 import silantyevmn.ru.coinlite.mvp.model.cache.Cache
 import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinChartRest
 import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinRest
@@ -12,15 +14,14 @@ import java.lang.RuntimeException
 class PaperCache : Cache {
     private val BASE_KEY = "CoinMarket"
     private val KEY_CHART = "Chart"
-    override fun getCoinMarket(): Observable<List<GeckoCoinRest>> {
-        return Observable.create { emitter: ObservableEmitter<List<GeckoCoinRest>> ->
+    override fun getCoinMarket(): Single<List<GeckoCoinRest>> {
+        return Single.create { emitter: SingleEmitter<List<GeckoCoinRest>> ->
             try {
                 val list: List<GeckoCoinRest> = Paper.book().read(BASE_KEY);
-                emitter.onNext(list)
+                emitter.onSuccess(list)
             } catch (e: Exception) {
                 emitter.onError(RuntimeException("Cache CoinMarket is null"))
             }
-            emitter.onComplete()
         }
     }
 

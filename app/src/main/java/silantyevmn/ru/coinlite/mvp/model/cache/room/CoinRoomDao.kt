@@ -1,19 +1,8 @@
 package silantyevmn.ru.coinlite.mvp.model.cache.room
 
 import androidx.room.*
-import io.reactivex.Observable
-import silantyevmn.ru.coinlite.mvp.model.entity.GeckoCoinItem
 import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinChartRest
 import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinRest
-
-/*
-fun getCoinMarket(): Observable<List<GeckoCoinRest>>
-    fun putAllCoinMarket(list:List<GeckoCoinRest>): Boolean
-
-    fun getChartById(id: String): Observable<GeckoCoinChartRest>
-    fun putChartById(id: String,chart:GeckoCoinChartRest): Boolean
-
- */
 
 @Dao
 interface CoinRoomDao{
