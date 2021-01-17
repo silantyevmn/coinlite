@@ -1,61 +1,53 @@
 package silantyevmn.ru.coinlite.mvp.model.cache.room
 
-import android.arch.persistence.room.Room
-import com.yurentsy.watchingyou.App
-import com.yurentsy.watchingyou.mvp.model.cache.Cache
-import com.yurentsy.watchingyou.mvp.model.entity.Person
+
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import silantyevmn.ru.coinlite.mvp.model.cache.Cache
+import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinChartRest
+import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinRest
+import java.lang.Exception
+import java.lang.RuntimeException
 
-class CoinRoom : Cache {
-    private val DATABASE_NAME = "persons.db"
-    private val database: CoinRoomAbs
-    fun put(person: Person): Observable<Boolean> {
-        return Observable.just<Any>(person)
-            .map { person1: Any? ->
-                database.photoDao().insert(person1)
-                true
+class CoinRoom(val dataBase: CoinRoomAbs) : Cache {
+
+    override fun getCoinMarket(): Observable<List<GeckoCoinRest>> {
+        return Observable.create { emitter: ObservableEmitter<List<GeckoCoinRest>> ->
+            try {
+                val coinMarkets = dataBase.photoDao().getCoinMarket()
+                if (coinMarkets.isEmpty()) {
+                    throw RuntimeException("Cache CoinMarkets is null")
+                }
+                emitter.onNext(coinMarkets)
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
+            emitter.onComplete()
+        }
     }
 
-    fun putAll(list: List<Person>): Observable<Boolean> {
-        return Observable.just<List<Person>>(list)
-            .map { personList: List<Person>? ->
-                database.photoDao().insertAll(personList)
-                true
-            }
+    override fun putAllCoinMarket(list: List<GeckoCoinRest>): Boolean {
+        dataBase.photoDao().putAllCoinMarket(list)
+        return true
     }
 
-    val persons: Observable<List<Any>>
-        get() = Observable.just<List<Person>>(database.photoDao().list)
-
-    fun updatePerson(person: Person): Observable<Boolean> {
-        return Observable.just<Any>(person)
-            .map { person1: Any? ->
-                database.photoDao().update(person1)
-                true
+    override fun getChartById(id: String): Observable<GeckoCoinChartRest> {
+        return Observable.create { emitter: ObservableEmitter<GeckoCoinChartRest> ->
+            try {
+                val chart = dataBase.photoDao().getChart(id)
+                if (chart == null) {
+                    throw RuntimeException("Cache Chart is null")
+                }
+                emitter.onNext(chart)
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
+            emitter.onComplete()
+        }
     }
 
-    fun insert(person: Person): Observable<Boolean> {
-        return Observable.just<Any>(person)
-            .map { person1: Any ->
-                val maxId = database.photoDao().maxId + 1
-                person1.setId(maxId.toString())
-                database.photoDao().insert(person1)
-                true
-            }
-    }
-
-    fun delete(person: Person): Observable<Boolean> {
-        return Observable.just<Any>(person)
-            .map { person1: Any? ->
-                database.photoDao().delete(person)
-                true
-            }
-    }
-
-    init {
-        database = Room.databaseBuilder(App.getInstance(), CoinRoomAbs::class.java, DATABASE_NAME)
-            .allowMainThreadQueries().build()
+    override fun putChart(chart: GeckoCoinChartRest): Boolean {
+        dataBase.photoDao().putChart(chart)
+        return true
     }
 }

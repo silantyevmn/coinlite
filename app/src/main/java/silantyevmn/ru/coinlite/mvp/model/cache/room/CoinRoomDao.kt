@@ -1,29 +1,45 @@
 package silantyevmn.ru.coinlite.mvp.model.cache.room
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Update
+import androidx.room.*
+import io.reactivex.Observable
+import silantyevmn.ru.coinlite.mvp.model.entity.GeckoCoinItem
+import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinChartRest
+import silantyevmn.ru.coinlite.mvp.model.entity.rest.GeckoCoinRest
+
+/*
+fun getCoinMarket(): Observable<List<GeckoCoinRest>>
+    fun putAllCoinMarket(list:List<GeckoCoinRest>): Boolean
+
+    fun getChartById(id: String): Observable<GeckoCoinChartRest>
+    fun putChartById(id: String,chart:GeckoCoinChartRest): Boolean
+
+ */
 
 @Dao
-interface CoinRoomDao {
-    @get:Query("SELECT * FROM person")
-    val list: List<Any?>?
+interface CoinRoomDao{
+    //coins
+    @Query("SELECT * FROM coins")
+    fun getCoinMarket(): List<GeckoCoinRest>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(person: Person?)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun putAllCoinMarket(list:List<GeckoCoinRest>)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(list: List<Person?>?)
-
-    @Update
-    fun update(person: Person?)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun updateCoins(list:List<GeckoCoinRest>)
 
     @Delete
-    fun delete(person: Person?)
+    fun deleteCoins(list:List<GeckoCoinRest>)
 
-    @get:Query("SELECT MAX(id) FROM person")
-    val maxId: Int
+    //chart
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun putChart(chart: GeckoCoinChartRest)
+
+    @Query("SELECT * FROM charts WHERE id =:charId")
+    fun getChart(charId: String): GeckoCoinChartRest?
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun updateChart(chart: GeckoCoinChartRest)
+
+    @Delete
+    fun deleteChart(chart: GeckoCoinChartRest)
 }
