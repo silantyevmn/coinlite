@@ -23,8 +23,12 @@ class GeckoRepo(val api: GeckoApi, val cache: Cache) {
     fun getChartCoin(id: String): Observable<GeckoCoinChartRest> {
         return if (NetworkStatus.isOnline) {
             api.getChartById(id)
+                .map {chart ->
+                    chart.id = id
+                    return@map chart
+                }
                 .doOnNext { chart ->
-                    cache.putChartById(id, chart)
+                    cache.putChart(chart)
                 }
         } else {
             cache.getChartById(id)

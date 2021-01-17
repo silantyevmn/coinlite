@@ -9,7 +9,7 @@ interface Cache{
     fun putAllCoinMarket(list:List<GeckoCoinRest>): Boolean
 
     fun getChartById(id: String): Observable<GeckoCoinChartRest>
-    fun putChartById(id: String,chart:GeckoCoinChartRest): Boolean
+    fun putChart(chart:GeckoCoinChartRest): Boolean
 
 
 }
