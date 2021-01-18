@@ -24,7 +24,8 @@ import silantyevmn.ru.coinlite.mvp.view.HomeView
 import javax.inject.Inject
 
 class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Listener {
-    lateinit var adapter:HomeRecyclerAdapter
+    lateinit var adapter: HomeRecyclerAdapter
+
     @Inject
     lateinit var repo: GeckoRepo
 
@@ -62,10 +63,10 @@ class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Liste
     }
 
     override fun init() {
-        toolbar.title=getString(R.string.app_name)
+        toolbar.title = getString(R.string.app_name)
         rcv_container_home.layoutManager = LinearLayoutManager(context)
-        adapter= HomeRecyclerAdapter(this,imageLoader)
-        rcv_container_home.adapter=adapter;
+        adapter = HomeRecyclerAdapter(this, imageLoader)
+        rcv_container_home.adapter = adapter;
 
         btn_load.setOnClickListener {
             presenter.loadData()
@@ -74,18 +75,24 @@ class HomeFragment : MvpAppCompatFragment(), HomeView, HomeRecyclerAdapter.Liste
         btn_action_cancel.setOnClickListener {
             presenter.onStop()
         }
+
+        swipe_home.setOnRefreshListener {
+            presenter.loadData()
+        }
     }
 
     override fun updateList(list: List<Any>) {
-        adapter.list=list;
+        adapter.list = list
     }
 
     override fun showLoading() {
-        loadingContainer.visibility = View.VISIBLE
+//        loadingContainer.visibility = View.VISIBLE
+        swipe_home.isRefreshing = true
     }
 
     override fun hideLoading() {
         loadingContainer.visibility = View.GONE
+        swipe_home.isRefreshing = false
     }
 
     override fun showError(msg: String) {

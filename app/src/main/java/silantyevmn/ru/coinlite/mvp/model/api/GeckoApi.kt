@@ -1,6 +1,7 @@
 package silantyevmn.ru.coinlite.mvp.model.api
 
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,14 +17,14 @@ interface GeckoApi {
         @Query("page") page: Int = 1,
         @Query("sparkline") sparkline: Boolean = false,
         @Query("order") order: String = "market_cap_desc"
-    ): Observable<List<GeckoCoinRest>>
+    ): Single<List<GeckoCoinRest>>
 
     //запрос данных для графика
     @GET("coins/{id}/market_chart")
-    fun getCoinMarketChart(
+    fun getChartById(
         @Path("id") id: String,
         @Query("vs_currency") vsCurrency: String = "usd",
-        @Query("days") days: String = "90",
+        @Query("days") days: String = "30",
         @Query("interval") interval: String = "daily"
 
     ): Observable<GeckoCoinChartRest>

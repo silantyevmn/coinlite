@@ -37,7 +37,7 @@ class HomePresenter(
                 .observeOn(mainThreadScheduler)
                 .doOnSubscribe { viewState.showLoading() }
                 .doOnError { viewState.hideLoading() }
-                .doOnComplete { viewState.hideLoading() }
+                .doOnSuccess { viewState.hideLoading() }
                 .subscribe({
                     if (viewState != null) {
                         viewState.updateList(it)

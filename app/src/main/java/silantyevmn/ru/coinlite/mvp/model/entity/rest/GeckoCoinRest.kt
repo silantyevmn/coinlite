@@ -1,8 +1,14 @@
 package silantyevmn.ru.coinlite.mvp.model.entity.rest
 
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "coins")
 data class GeckoCoinRest(
+    @PrimaryKey
+    @NonNull
     val id: String,
     val symbol: String,
     val name: String,
